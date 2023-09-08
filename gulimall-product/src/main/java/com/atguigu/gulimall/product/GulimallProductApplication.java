@@ -1,5 +1,6 @@
 package com.atguigu.gulimall.product;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -51,6 +52,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *  2）、使用@ExceptionHandler标注方法可以处理的异常。
  */
 
+@MapperScan("com.atguigu.gulimall.product.dao")
 @SpringBootApplication
 public class GulimallProductApplication {
     public static void main(String[] args) {

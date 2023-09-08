@@ -8,6 +8,7 @@
 
 package com.atguigu.common.utils;
 
+import com.atguigu.common.xss.SQLFilter;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
