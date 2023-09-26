@@ -21,5 +21,16 @@ SpringCloudAlibaba-Seata： 原Fescar, 即分布事物解决方案
 ![Nacos](https://nacos.io/zh-cn/docs/what-is-nacos.html)
 
 
-###错误信息： 
-> [2023-09-14 21:40:05] [HY000][1130] null,  message from server: "Host '39.190.92.130' is not allowed to connect to this MySQL server".
+
+###跨域
+> 不是简单请求需要发送域前请求：OPTIONS 找服务器，服务器允不允许访问。真实服务就不再发送。之后在是复杂请求。
+> 1/ 使用nginx   线上
+> 2/ 本地开发 直接运行跨域访问就行了。 具体在springCloud中 getWay中统一配置跨域
+
+
+### 数据库设置固定ip访问
+```
+    flush privileges;
+    GRANT ALL PRIVILEGES ON *.* TO 'root'@'能访问的ip' IDENTIFIED BY 'root的密码' WITH GRANT OPTION;
+    flush privileges;
+```

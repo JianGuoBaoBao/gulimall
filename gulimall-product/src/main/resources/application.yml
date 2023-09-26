@@ -4,11 +4,22 @@ spring:
     password: Tonghua@214.
     url: jdbc:mysql://47.97.230.211:10086/gulimall_pms
     driver-class-name: com.mysql.cj.jdbc.Driver
+
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml
   global-config:
     db-config:
       id-type: auto
+      logic-delete-value: 1
+      logic-not-delete-value: 0
 
 server:
-  port: 10001
+  port: 10000
+
+logging:
+  level:
+    com.atguigu.gulimall: debug
