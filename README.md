@@ -34,3 +34,26 @@ SpringCloudAlibaba-Seata： 原Fescar, 即分布事物解决方案
     GRANT ALL PRIVILEGES ON *.* TO 'root'@'能访问的ip' IDENTIFIED BY 'root的密码' WITH GRANT OPTION;
     flush privileges;
 ```
+
+
+### 常规报错解析
+```
+    ***************************
+    APPLICATION FAILED TO START
+    ***************************
+    
+    Description:
+    
+    Field ossClient in com.atguigu.gulimall.thirdparty.controller.OssController required a bean of type 'com.aliyun.oss.OSSClient' that could not be found.
+    
+    The injection point has the following annotations:
+    	- @org.springframework.beans.factory.annotation.Autowired(required=true)
+
+```
+
+bean没有找到，查找spring starter启动项目都是有自动配置的，查看xxxAutoConfiguration源文件可以看到
+
+
+### 204 No Content
+
+

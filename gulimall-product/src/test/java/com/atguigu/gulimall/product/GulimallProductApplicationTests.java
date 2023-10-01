@@ -1,5 +1,9 @@
 package com.atguigu.gulimall.product;
 
+//import com.aliyun.oss.*;
+//import com.aliyun.oss.common.auth.CredentialsProviderFactory;
+//import com.aliyun.oss.common.auth.EnvironmentVariableCredentialsProvider;
+//import com.aliyun.oss.model.OSSObject;
 import com.atguigu.gulimall.product.entity.BrandEntity;
 import com.atguigu.gulimall.product.entity.CategoryEntity;
 import com.atguigu.gulimall.product.service.BrandService;
@@ -12,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.io.*;
 import java.util.List;
 
 
@@ -27,6 +32,9 @@ public class GulimallProductApplicationTests {
 
     @Autowired
     BrandService brandService;
+
+//    @Autowired
+//    OSSClient ossClient;
 
 
     @Autowired
@@ -53,4 +61,14 @@ public class GulimallProductApplicationTests {
         list.forEach(System.out::println);
     }
 
+//    @Test
+//    public void tesstUploat() throws FileNotFoundException {
+//
+//        InputStream inputStream =  new FileInputStream("/Users/wanglingjie/IdeaProjects/web_learn/java/gulimall/gulimall-product/src/test/java/com/atguigu/gulimall/product/temp.txt");
+//        ossClient.putObject("jianguobaobao01", "temp.txt", inputStream);
+//
+//        ossClient.shutdown();
+//        System.out.println("上传完成");
+//
+//    }
 }
