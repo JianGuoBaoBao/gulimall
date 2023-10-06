@@ -17,6 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.*;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -39,6 +40,12 @@ public class GulimallProductApplicationTests {
 
     @Autowired
     CategoryService categoryService;
+
+    @Test
+    public void testFindPath(){
+        Long[] catelogPath = categoryService.findCatelogPath(225L);
+        log.info("完整路径：{}", Arrays.asList(catelogPath));
+    }
 
 
 
