@@ -1,15 +1,16 @@
 package com.atguigu.gulimall.product.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import com.atguigu.gulimall.product.entity.AttrEntity;
+import com.atguigu.gulimall.product.service.AttrAttrgroupRelationService;
+import com.atguigu.gulimall.product.service.AttrService;
 import com.atguigu.gulimall.product.service.CategoryService;
+import com.atguigu.gulimall.product.vo.AttrGroupRelationVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.atguigu.gulimall.product.entity.AttrGroupEntity;
 import com.atguigu.gulimall.product.service.AttrGroupService;
@@ -34,6 +35,33 @@ public class AttrGroupController {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    private AttrService attrService;
+
+    @Autowired
+    private AttrAttrgroupRelationService relationService;
+
+    @PostMapping("/attr/relation")
+    public R addRelation(@RequestBody List<AttrGroupRelationVo> vos){
+        relationService.saveBatch(vos);
+        return R.ok();
+    }
+
+    @GetMapping("/{attrGroupId}/attr/relation")
+    public R attrRelation(@PathVariable("attrGroupId") Long attrgroupId){
+
+        List<AttrEntity> entities =  attrService.getRelationAttr(attrgroupId);
+        return R.ok().put("data", entities);
+    }
+
+    @GetMapping("/{attrGroupId}/noattr/relation")
+    public R attrNoRelation(@PathVariable("attrGroupId") Long attrgroupId,
+                            @RequestParam Map<String,Object> params){
+
+        PageUtils page =  attrService.getNoRelationAttr(params, attrgroupId);
+        return R.ok().put("page", page);
+    }
+
     /**
      * 列表
      */
@@ -55,7 +83,7 @@ public class AttrGroupController {
 		Long catlogId = attrGroup.getCatelogId();
 
 		Long[] path = categoryService.findCatelogPath(catlogId);  // 分类
-		attrGroup.setCateLogPath(path);
+		attrGroup.setCatelogPath(path);
         return R.ok().put("attrGroup", attrGroup);
     }
 
@@ -78,6 +106,13 @@ public class AttrGroupController {
     public R update(@RequestBody AttrGroupEntity attrGroup){
 		attrGroupService.updateById(attrGroup);
 
+        return R.ok();
+    }
+
+
+    @RequestMapping("/attr/relation/delete")
+    public R deleteRelation(@RequestBody AttrGroupRelationVo[] vos){
+        attrService.deleteRelation(vos);
         return R.ok();
     }
 
