@@ -10,7 +10,7 @@ SpringCloud Alibaba-Nacos: 配置中心（动态配置管理）
 
 SpringCloud-Ribbon: 负载均衡
 SpringCloud-Feign: 声明式HTTP客户端（调用远程服务）
-SpringCloudAlibaba-Sentinel: 服务容错（限流、降级、熔断）  保护服务的稳定性
+SpringCloudAlibaba-Sentinel: 服务 容错（限流、降级、熔断）  保护服务的稳定性
 SpringCloud-Gateway: API网关（webflux编程模式）
 SpringCloud-Sleuth: 调用链监控
 SpringCloudAlibaba-Seata： 原Fescar, 即分布事物解决方案
