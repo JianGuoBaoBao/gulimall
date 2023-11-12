@@ -24,13 +24,12 @@ public class ProductAttrValueServiceImpl extends ServiceImpl<ProductAttrValueDao
                 new Query<ProductAttrValueEntity>().getPage(params),
                 new QueryWrapper<ProductAttrValueEntity>()
         );
-
         return new PageUtils(page);
     }
 
     @Override
     public void saveProductAttrs(List<ProductAttrValueEntity> collect) {
-        this.saveBatch(collect)
+        this.saveBatch(collect);
     }
 
 }
