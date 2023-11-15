@@ -32,7 +32,7 @@ public class SkuFullReductionController {
      */
     @PostMapping("/saveinfo")
     //@RequiresPermissions("coupon:skufullreduction:list")
-    public R saveInfo(@RequestParam SkuReductionTo skuReductionTo){
+    public R saveInfo(@RequestBody SkuReductionTo skuReductionTo){
         skuFullReductionService.saveSkuReduction(skuReductionTo);
         return R.ok();
     }

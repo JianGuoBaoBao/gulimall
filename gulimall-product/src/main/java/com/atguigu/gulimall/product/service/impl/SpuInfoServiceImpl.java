@@ -149,14 +149,14 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
 
                 // 3.sku的销售属性信息： pms_sku_sale_attr_value
                 List<Attr> attr = item.getAttr();
-                List<SkuSaleAttrValueEntity> SkuSaleAttrValueEntities = attr.stream().map(a -> {
+                List<SkuSaleAttrValueEntity> skuSaleAttrValueEntities = attr.stream().map(a -> {
                     SkuSaleAttrValueEntity skuSaleAttrValueEntity = new SkuSaleAttrValueEntity();
                     BeanUtils.copyProperties(a, skuSaleAttrValueEntity);
                     skuSaleAttrValueEntity.setSkuId(skuId);
 
                     return skuSaleAttrValueEntity;
                 }).collect(Collectors.toList());
-                skuSaleAttrValueService.saveBatch(SkuSaleAttrValueEntities);
+                skuSaleAttrValueService.saveBatch(skuSaleAttrValueEntities);
 
 
                 // 4.sku的优惠、满减等信息；gulimall_sms -> sms_sku_ladder\sms_sku_full_reduction\sms_member_price
