@@ -10,6 +10,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -59,7 +60,9 @@ public class SkuFullReductionServiceImpl extends ServiceImpl<SkuFullReductionDao
         // -> sms_sku_full_reduction
         SkuFullReductionEntity reductionEntity= new SkuFullReductionEntity();
         BeanUtils.copyProperties(skuReductionTo, reductionEntity);
-        this.save(reductionEntity);
+        if(reductionEntity.getFullPrice().compareTo(new BigDecimal("0")) > 0){
+            this.save(reductionEntity);
+        }
 
 
         // -> sms_member_price
@@ -72,7 +75,7 @@ public class SkuFullReductionServiceImpl extends ServiceImpl<SkuFullReductionDao
             priceEntity.setMemberPrice(item.getPrice());
             priceEntity.setAddOther(1);
             return priceEntity;
-        }).collect(Collectors.toList());
+        }).filter(item -> item.getMemberPrice().compareTo(new BigDecimal("0")) > 0).collect(Collectors.toList());
         memberPriceService.saveBatch(collect);
 
     }
