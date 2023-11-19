@@ -25,7 +25,7 @@ import com.atguigu.common.utils.R;
  * @date 2023-09-02 12:27:31
  */
 @RestController
-@RequestMapping("ware/wmswaresku")
+@RequestMapping("ware/waresku")
 public class WmsWareSkuController {
     @Autowired
     private WmsWareSkuService wmsWareSkuService;

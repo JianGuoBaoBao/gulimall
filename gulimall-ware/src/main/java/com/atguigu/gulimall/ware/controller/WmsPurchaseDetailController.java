@@ -18,14 +18,14 @@ import com.atguigu.common.utils.R;
 
 
 /**
- * 
+ *
  *
  * @author jianguobaobao
  * @email jianguobaobao@gmail.com
  * @date 2023-09-02 12:27:31
  */
 @RestController
-@RequestMapping("ware/wmspurchasedetail")
+@RequestMapping("ware/purchasedetail")
 public class WmsPurchaseDetailController {
     @Autowired
     private WmsPurchaseDetailService wmsPurchaseDetailService;

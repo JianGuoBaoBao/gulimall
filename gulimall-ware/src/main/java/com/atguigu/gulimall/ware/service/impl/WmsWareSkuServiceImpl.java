@@ -1,5 +1,6 @@
 package com.atguigu.gulimall.ware.service.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -18,9 +19,21 @@ public class WmsWareSkuServiceImpl extends ServiceImpl<WmsWareSkuDao, WmsWareSku
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
+        QueryWrapper<WmsWareSkuEntity> queryWrapper =  new QueryWrapper<WmsWareSkuEntity>();
+        String skuId = (String) params.get("skuId");
+        if(!StringUtils.isEmpty(skuId)){
+            queryWrapper.eq("sku_id", skuId);
+        }
+
+        String wareId= (String) params.get("wareId");
+        if(!StringUtils.isEmpty(wareId)){
+            queryWrapper.eq("ware_id", wareId);
+        }
+
+
         IPage<WmsWareSkuEntity> page = this.page(
                 new Query<WmsWareSkuEntity>().getPage(params),
-                new QueryWrapper<WmsWareSkuEntity>()
+                queryWrapper
         );
 
         return new PageUtils(page);

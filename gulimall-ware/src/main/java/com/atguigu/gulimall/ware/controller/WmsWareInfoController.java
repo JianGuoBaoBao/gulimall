@@ -25,7 +25,7 @@ import com.atguigu.common.utils.R;
  * @date 2023-09-02 12:27:31
  */
 @RestController
-@RequestMapping("ware/wmswareinfo")
+@RequestMapping("ware/wareinfo")
 public class WmsWareInfoController {
     @Autowired
     private WmsWareInfoService wmsWareInfoService;
