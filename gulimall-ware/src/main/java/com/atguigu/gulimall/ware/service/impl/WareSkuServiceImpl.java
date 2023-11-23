@@ -3,6 +3,8 @@ package com.atguigu.gulimall.ware.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -44,7 +46,18 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
 
     @Override
     public void addStock(Long skuId, Long wareId, Integer skuNum) {
-        wareSkuDao.addStock(skuId, wareId,skuNum);
+        // 1、判断如果还没有这个库存记录新增
+        List<WareSkuEntity> entities = wareSkuDao.selectList(new QueryWrapper<WareSkuEntity>().eq("sku_id", skuId).eq("ware_id", wareId));
+        if(entities == null || entities.isEmpty()){
+            WareSkuEntity skuEntity = new WareSkuEntity();
+            skuEntity.setSkuId(skuId);
+            skuEntity.setStock(skuNum);
+            skuEntity.setWareId(wareId);
+            wareSkuDao.insert(skuEntity);
+        }else{
+            wareSkuDao.addStock(skuId, wareId,skuNum);
+
+        }
     }
 
 }

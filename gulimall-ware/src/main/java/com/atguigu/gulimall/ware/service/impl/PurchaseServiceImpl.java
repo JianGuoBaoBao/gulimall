@@ -125,6 +125,7 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseEntity
         });
     }
 
+    @Transactional
     @Override
     public void done(PurchaseDoneVo doneVo) {
 
