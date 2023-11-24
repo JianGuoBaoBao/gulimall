@@ -1,8 +1,11 @@
 package com.atguigu.gulimall.product.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import com.atguigu.gulimall.product.entity.ProductAttrValueEntity;
+import com.atguigu.gulimall.product.service.ProductAttrValueService;
 import com.atguigu.gulimall.product.vo.AttrGroupRelationVo;
 import com.atguigu.gulimall.product.vo.AttrRespVo;
 import com.atguigu.gulimall.product.vo.AttrVo;
@@ -13,8 +16,6 @@ import com.atguigu.gulimall.product.entity.AttrEntity;
 import com.atguigu.gulimall.product.service.AttrService;
 import com.atguigu.common.utils.PageUtils;
 import com.atguigu.common.utils.R;
-
-
 
 /**
  * 商品属性
@@ -28,6 +29,16 @@ import com.atguigu.common.utils.R;
 public class AttrController {
     @Autowired
     private AttrService attrService;
+
+    @Autowired
+    private ProductAttrValueService productAttrValueService;
+
+
+    @GetMapping("/base/listforspu/{spuId}")
+    public R baseAttrListforspu(@PathVariable("spuId") Long spuId){
+        List<ProductAttrValueEntity> entityList  = productAttrValueService.baseAttrlistforspu(spuId);
+        return R.ok().put("data",entityList);
+    }
 
     @GetMapping("/{attrType}/list/{catelogId}")
     public R baseAttrList(@RequestParam Map<String, Object> params,

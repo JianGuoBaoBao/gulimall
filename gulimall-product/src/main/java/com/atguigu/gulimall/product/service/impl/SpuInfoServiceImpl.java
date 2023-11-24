@@ -188,7 +188,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         if(!StringUtils.isEmpty(key)) {
             wrapper.and(w -> {  // 相当于（）里面放置参数
                 w.eq("id", key).or().like("spu_name", key);
-            })
+            });
         }
 
         String status = (String) params.get("status");
@@ -210,7 +210,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         IPage<SpuInfoEntity> page = this.page(
                 new Query<SpuInfoEntity>().getPage(params),
                 wrapper
-        )
+        );
 
         return new PageUtils(page);
     }

@@ -1,5 +1,7 @@
 package com.atguigu.gulimall.ware.service.impl;
 
+import com.atguigu.common.utils.R;
+import com.atguigu.gulimall.ware.feign.ProductFeignService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,10 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
 
     @Autowired
     private WareSkuDao wareSkuDao;
+
+    @Autowired
+    private ProductFeignService productFeignService;
+
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         QueryWrapper<WareSkuEntity> queryWrapper =  new QueryWrapper<WareSkuEntity>();
@@ -53,6 +59,24 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
             skuEntity.setSkuId(skuId);
             skuEntity.setStock(skuNum);
             skuEntity.setWareId(wareId);
+            skuEntity.setStockLocked(0);
+
+            //TODO 远程查询sku的名字, 如果失败整个事务无需回滚
+            // 1.自己获取异常
+            // TODO 还跨越用什么办法不回滚
+            try{
+                R info = productFeignService.info(skuId);
+                Map<String, Object> data  = (Map<String, Object>) info.get("skuInfo");
+
+                if(info.getCode() == 0){
+                    skuEntity.setSkuName((String) data.get("skuInfo"));
+                }
+
+            }catch (Exception e){
+
+            }
+
+
             wareSkuDao.insert(skuEntity);
         }else{
             wareSkuDao.addStock(skuId, wareId,skuNum);
