@@ -60,3 +60,6 @@ bean没有找到，查找spring starter启动项目都是有自动配置的，�
 ### SPU: STANDARD PRODUCT UNIT (标准化产品单元)
 ### SKU:  
 
+
+
+
