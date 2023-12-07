@@ -23,5 +23,56 @@ docker run --name elasticsearch -p 9200:9200 -p 9300:9300 \
 
 
 ### Kibana
-docker run --name kibana -e ELASTICSEARCH_HOSTS=http://???? -p 5601:5601 \ 
--d kibana:7.4.2
+docker run --name kibana -e ELASTICSEARCH_HOSTS=http://192.168.136.128:9200 -p 5601:5601 -d kibana:7.4.2
+
+### Query DSL
+基本语法格式
+Elasticsearch 提供了一个可以执行查询的Json风格的DSL (domain-specific language领域特定语言)。
+这个被称为Query DSL
+```
+GET bank/_search
+{
+  "query":{
+    "match_all":{}
+  },
+  "sort": [
+      {
+        "account_number":"asc"
+      },
+      {
+        "balance": "desc"
+      }
+    ]
+}
+
+```
+
+```
+GET bank/_search
+
+{
+  "query":{
+    "match_all":{}
+  },
+  "sort": [
+      {
+        "balance": {
+          "order":"desc"
+        }
+      }
+    ],
+    "from":0,
+    "size":5
+}
+
+```
+
+### nginx
+docker run -p 80:80 --name nginx -d nginx:1.10
+docker container cp nginx:/etc/nginx .
+
+docker run -p 80:80 --name nginx \
+-v /mydata/nginx/html:/usr/share/nginx/html \
+-v /mydata/nginx/logs:/var/log/nginx \
+-v /mydata/nginx/conf:/etc/nginx \
+-d nginx:1.10

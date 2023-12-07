@@ -18,7 +18,7 @@ SpringCloudAlibaba-Seata： 原Fescar, 即分布事物解决方案
 
 ![阿里cloud](https://github.com/alibaba/spring-cloud-alibaba/blob/2.2.x/README-zh.md])
 ![nacos-server下载](https://github.com/alibaba/nacos/releases/tag/1.1.3)
-![Nacos](https://nacos.io/zh-cn/docs/what-is-nacos.html)
+![#Nacos](https://nacos.io/zh-cn/docs/what-is-nacos.html)
 
 
 
@@ -60,6 +60,17 @@ bean没有找到，查找spring starter启动项目都是有自动配置的，�
 ### SPU: STANDARD PRODUCT UNIT (标准化产品单元)
 ### SKU:  
 
+
+### 错误
+
+ server: "Host '122.226.151.46' is not allowed to connect to this MySQL serve
+
+mysql> update user set host = '%' where user = 'root' and host='122.226.151.46';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> flush privileges;
+Query OK, 0 rows affected (0.00 sec)
 
 
 
