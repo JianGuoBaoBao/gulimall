@@ -8,6 +8,7 @@ import org.elasticsearch.client.RestClientBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.elasticsearch.client.RestHighLevelClient;
 
 /**
  * 1. 导入依赖
@@ -17,12 +18,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class GuilimallElasticSearchConfig {
 
-//    @Autowired
-//    private RestHighLevelClient client;
-
-    private static final RequestOptions COMMON_OPTIONS;
+    public static final RequestOptions COMMON_OPTIONS;
     static {
         RequestOptions.Builder builder = RequestOptions.DEFAULT.toBuilder();
+        COMMON_OPTIONS = builder.build();
     }
 
 
