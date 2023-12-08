@@ -5,9 +5,17 @@
 docker pull elasticsearch:7.4.2 存储和检索数据
 docker pull kibana:7.4.2 可视化检索数据
 
+### 镜像容器地址
+[root@localhost containers]# pwd
+/var/lib/docker/containers
+[root@localhost containers]#
+
+### 临时关闭防火墙
+[root@localhost containers]# systemctl disable firewalld
+
 
 ### 实例创建
-1、ElasticSearch
+1、ElasticSearch 
 
 mkdir -p /mydata/elasticsearch/config
 mkdir -p /mydata/elasticsearch/data
@@ -15,7 +23,7 @@ echo "http.host:0.0.0.0">>/mydata/elasticsearch/config/elasticsearch.yml
 
 docker run --name elasticsearch -p 9200:9200 -p 9300:9300 \
 -e "discovery.type=single-node" \
--e ES_JAVA_OPTS="-Xms64m -Xmx128m" \
+-e ES_JAVA_OPTS="-Xms512m -Xmx1g" \
 -v /mydata/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml \
 -v /mydata/elasticsearch/data:/usr/share/elasticsearch/data \
 -v /mydata/elasticsearch/plugins:/usr/share/elasticsearch/plugins \

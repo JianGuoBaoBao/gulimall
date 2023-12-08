@@ -47,6 +47,7 @@ public class GulimallSearchApplicationTests {
         IndexResponse index = client.index(indexRequest, GuilimallElasticSearchConfig.COMMON_OPTIONS);
 
         // 提取有用的响应数据
+        System.out.println(index);
 
     }
     @Data
