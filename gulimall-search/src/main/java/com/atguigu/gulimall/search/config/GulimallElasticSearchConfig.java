@@ -1,11 +1,9 @@
 package com.atguigu.gulimall.search.config;
 
 import org.apache.http.HttpHost;
-import org.elasticsearch.client.Request;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.elasticsearch.client.RestHighLevelClient;
@@ -16,7 +14,7 @@ import org.elasticsearch.client.RestHighLevelClient;
  * 3。
  */
 @Configuration
-public class GuilimallElasticSearchConfig {
+public class GulimallElasticSearchConfig {
 
     public static final RequestOptions COMMON_OPTIONS;
     static {
