@@ -1,5 +1,6 @@
 package com.atguigu.gulimall.product.service.impl;
 
+import com.alibaba.fastjson.TypeReference;
 import com.atguigu.common.constant.ProductConstant;
 import com.atguigu.common.to.SkuHasStockVo;
 import com.atguigu.common.to.SkuReductionTo;
@@ -260,8 +261,9 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         // TODO 1.发送远程调用，库存系统是否有库存
         Map<Long, Boolean> stockMap = null;
         try{
-            R<List<SkuHasStockVo>> skusHasStock = wareFeignService.getSkusHasStock(skuIdList);
-            stockMap  = skusHasStock.getData().stream().collect(Collectors.toMap(SkuHasStockVo::getSkuId, item -> item.getHasStock()));
+            R skusHasStock = wareFeignService.getSkusHasStock(skuIdList);
+            TypeReference<List<SkuHasStockVo>> typeReference = new TypeReference<List<SkuHasStockVo>>() {};
+            stockMap  = skusHasStock.getData(typeReference).stream().collect(Collectors.toMap(SkuHasStockVo::getSkuId, SkuHasStockVo::getHasStock));
         }catch (Exception e){
             log.error("库存服务查询异常：原因{}",e);
         }
@@ -310,6 +312,28 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         }else{
             // 远程调用失败
             // TODO 7.重复调用？接口幂等性；重复调用机制
+            // Feign调用流程
+            /**
+             *  1.构造请求数据，将对象转为json;
+             *      RequestTemplate template = buildTemplateFromArgs.create(argv);
+             *
+             *  2.发送请求进行执行(执行成功会解码响应数据)
+             *      executeAndDecode(template)
+             *
+             *  3.执行请求会有重试机制
+             *      while(true){
+             *      try {
+             *          executeAndDecode(template);
+             *          } catch (Exception e) {
+             *              try{
+             *                  retryer.continueOrPropagate(e);
+             *              } catch (Exception e){
+             *                  throw ex;
+             *              }
+             *              continue;
+             *          }
+             *       }
+             */
         }
     }
 
