@@ -1,6 +1,7 @@
 package com.atguigu.gulimall.product.service.impl;
 
 import com.atguigu.common.constant.ProductConstant;
+import com.atguigu.common.to.SkuHasStockVo;
 import com.atguigu.common.to.SkuReductionTo;
 import com.atguigu.common.to.SpuBoundTo;
 import com.atguigu.common.to.es.SkuEsModel;
@@ -11,7 +12,6 @@ import com.atguigu.gulimall.product.feign.SearchFeignService;
 import com.atguigu.gulimall.product.feign.WareFeignService;
 import com.atguigu.gulimall.product.service.*;
 import com.atguigu.gulimall.product.vo.*;
-import com.atguigu.gulimall.ware.vo.SkuHasStockVo;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,6 +92,8 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         spuInfoEntity.setUpdateTime(new Date());
         this.saveBaseSpuInfo(spuInfoEntity);
 
+
+
         // 2、保存spu的描述图片 pms_spu_info_desc
         List<String> decript = vo.getDecript();
         SpuInfoDescEntity spuInfoDescEntity = new SpuInfoDescEntity();
@@ -110,8 +112,11 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         List<ProductAttrValueEntity> collect = baseAttrs.stream().map(attr -> {
             ProductAttrValueEntity valueEntity = new ProductAttrValueEntity();
             valueEntity.setAttrId(attr.getAttrId());
-            AttrEntity id = attrService.getById(attr.getAttrId());
-            valueEntity.setAttrName(id.getAttrName());
+
+            // 查询attr属性名
+            AttrEntity byId = attrService.getById(attr.getAttrId());
+
+            valueEntity.setAttrName(byId.getAttrName());
             valueEntity.setAttrValue(attr.getAttrValues());
             valueEntity.setQuickShow(attr.getShowDesc());
             valueEntity.setSpuId(spuInfoEntity.getId());
@@ -148,10 +153,11 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
                 skuInfoEntity.setBrandId(spuInfoEntity.getBrandId());
                 skuInfoEntity.setCatalogId(spuInfoEntity.getCatalogId());
                 skuInfoEntity.setSaleCount(0L);
-                skuInfoEntity.setSkuId(spuInfoEntity.getId());
+                skuInfoEntity.setSpuId(spuInfoEntity.getId());
                 skuInfoEntity.setSkuDefaultImg(defaultImg[0]);
                 skuInfoService.saveSkuInfo(skuInfoEntity);
 
+                // 调用BaseMapper 的insert方法后，默认将自增主键封装在插入对象中
                 Long skuId = skuInfoEntity.getSkuId();
 
                 List<SkuImagesEntity> imagesEntities = item.getImages().stream().map(img -> {
@@ -171,9 +177,9 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
                     SkuSaleAttrValueEntity skuSaleAttrValueEntity = new SkuSaleAttrValueEntity();
                     BeanUtils.copyProperties(a, skuSaleAttrValueEntity);
                     skuSaleAttrValueEntity.setSkuId(skuId);
-
                     return skuSaleAttrValueEntity;
                 }).collect(Collectors.toList());
+
                 skuSaleAttrValueService.saveBatch(skuSaleAttrValueEntities);
 
 
@@ -251,7 +257,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
             }).collect(Collectors.toList());
 
 
-        // TODO 1发送远程调用，库存系统是否有库存
+        // TODO 1.发送远程调用，库存系统是否有库存
         Map<Long, Boolean> stockMap = null;
         try{
             R<List<SkuHasStockVo>> skusHasStock = wareFeignService.getSkusHasStock(skuIdList);

@@ -13,6 +13,9 @@ docker pull kibana:7.4.2 可视化检索数据
 ### 临时关闭防火墙
 [root@localhost containers]# systemctl disable firewalld
 
+## nacos&chrome跨域
+open -n /Applications/Google\ Chrome.app/ --args --disable-web-security --user-data-dir=/Users/wanglingjie/IdeaProjects/tzbank_project/chromeDevData
+sudo sh /Users/wanglingjie/work/nacos/nacos/bin/startup.sh -m standalone
 
 ### 实例创建
 1、ElasticSearch 
@@ -31,7 +34,7 @@ docker run --name elasticsearch -p 9200:9200 -p 9300:9300 \
 
 
 ### Kibana
-docker run --name kibana -e ELASTICSEARCH_HOSTS=http://192.168.136.128:9200 -p 5601:5601 -d kibana:7.4.2
+docker run --name kibana -e ELASTICSEARCH_HOSTS=http://192.168.240.138:9200 -p 5601:5601 -d kibana:7.4.2
 
 ### Query DSL
 基本语法格式
