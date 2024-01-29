@@ -2,6 +2,7 @@ package com.atguigu.gulimall.product.service.impl;
 
 import com.atguigu.gulimall.product.entity.CategoryBrandRelationEntity;
 import com.atguigu.gulimall.product.service.CategoryBrandRelationService;
+import com.atguigu.gulimall.product.vo.Catelog2Vo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -99,6 +100,46 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
     @Override
     public List<CategoryEntity> getLevel1Categorys() {
         return baseMapper.selectList(new QueryWrapper<CategoryEntity>().eq("parent_cid",0));
+    }
+
+    @Override
+    public Map<String, List<Catelog2Vo>> getCatalogJson() {
+
+        // 1、查出所有1级分类
+        List<CategoryEntity> level1Categorys = getLevel1Categorys();
+
+        // 2、封装数据
+        Map<String, List<Catelog2Vo>> parent_cid = level1Categorys.stream().collect(Collectors.toMap(k-> k.getCatId().toString(), v -> {
+            // 1、每一个一级分类，查到这个一级分类的所有二级分类
+            List<CategoryEntity> categoryEntities = baseMapper.selectList(new QueryWrapper<CategoryEntity>().eq("parent_cid", v.getCatId()));
+            // 2、封装上面的结果
+            List<Catelog2Vo> catelog2Vos = null;
+            if(categoryEntities != null){
+                 catelog2Vos = categoryEntities.stream().map(l2 -> {
+                    Catelog2Vo catelog2Vo = new Catelog2Vo(v.getCatId().toString(),null, l2.getCatId().toString(),l2.getName());
+
+                    // 1、找当前二级分类的三级分类分装成vo
+                     List<CategoryEntity> level3Catelog = baseMapper.selectList(new QueryWrapper<CategoryEntity>().eq("parent_cid",l2.getCatId()));
+                     if(level3Catelog != null) {
+                         List<Catelog2Vo.Catelog3Vo> collect = level3Catelog.stream().map(l3 -> {
+                             // 2、封装成指定格式
+                             Catelog2Vo.Catelog3Vo catelog3Vo = new Catelog2Vo.Catelog3Vo(
+                                     l2.getCatId().toString(),
+                                     l3.getCatId().toString(),
+                                     l3.getName());
+
+                             return catelog3Vo;
+                         }).collect(Collectors.toList());
+                         catelog2Vo.setCatalog3List(collect);
+                     }
+
+                    return catelog2Vo;
+                }).collect(Collectors.toList());
+            }
+            return catelog2Vos;
+        }));
+
+        return parent_cid;
     }
 
     private List<Long>  findParentPath(Long catelogId,  List<Long> paths) {
