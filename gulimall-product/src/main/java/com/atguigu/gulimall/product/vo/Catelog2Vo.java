@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 public class Catelog2Vo {
     private String catalog1Id; // 1级父分类id
-    private List<Object> catalog3List; // 三级子分类
+    private List<Catelog3Vo> catalog3List; // 三级子分类
 
     private String id;
     private String name;
