@@ -9,11 +9,11 @@ docker pull kibana:7.4.2 可视化检索数据
 [root@localhost containers]# pwd
 /var/lib/docker/containers
 [root@localhost containers]#
-
+  
 ### 临时关闭防火墙
 [root@localhost containers]# systemctl disable firewalld
 
-## nacos&chrome跨域
+## nacos&chrome跨域 
 open -n /Applications/Google\ Chrome.app/ --args --disable-web-security --user-data-dir=/Users/wanglingjie/IdeaProjects/tzbank_project/chromeDevData
 sudo sh /Users/wanglingjie/work/nacos/nacos/bin/startup.sh -m standalone
 
@@ -34,7 +34,7 @@ docker run --name elasticsearch -p 9200:9200 -p 9300:9300 \
 
 
 ### Kibana
-docker run --name kibana -e ELASTICSEARCH_HOSTS=http://192.168.240.138:9200 -p 5601:5601 -d kibana:7.4.2
+docker run --name kibana -e ELASTICSEARCH_HOSTS=http://192.168.240.139:9200 -p 5601:5601 -d kibana:7.4.2
 
 ### Query DSL
 基本语法格式
@@ -87,3 +87,17 @@ docker run -p 80:80 --name nginx \
 -v /mydata/nginx/logs:/var/log/nginx \
 -v /mydata/nginx/conf:/etc/nginx \
 -d nginx:1.10
+
+
+
+## 拉取镜像超时
+> vim /etc/docker/daemon.json
+```
+{
+        "registry-mirrors":[
+                "https://ustc-edu-cn.mirror.aliyuncs.com"
+        ]
+}
+```
+
+
